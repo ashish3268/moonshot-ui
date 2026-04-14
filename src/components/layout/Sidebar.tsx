@@ -13,6 +13,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HistoryIcon from '@mui/icons-material/History';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useAuthStore } from '@/store/authStore';
 
@@ -52,6 +53,7 @@ const NAV_ITEMS: NavLinkItem[] = [
   { label: 'Friends', path: '/friends', icon: <PeopleIcon fontSize="small" /> },
   { label: 'Groups', path: '/groups', icon: <GroupsIcon fontSize="small" /> },
   { label: 'Activity', path: '/activity', icon: <HistoryIcon fontSize="small" /> },
+  { label: 'Chat', path: '/chat', icon: <AutoAwesomeIcon fontSize="small" /> },
 ];
 
 export default function Sidebar() {

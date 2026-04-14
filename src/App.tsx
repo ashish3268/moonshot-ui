@@ -12,6 +12,7 @@ import GroupsPage from '@/pages/GroupsPage';
 import GroupDetailPage from '@/pages/GroupDetailPage';
 import ExpenseDetailPage from '@/pages/ExpenseDetailPage';
 import ActivityPage from '@/pages/ActivityPage';
+import ChatPage from '@/pages/ChatPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,7 @@ export default function App() {
               <Route path="/groups/:id" element={<GroupDetailPage />} />
               <Route path="/expenses/:id" element={<ExpenseDetailPage />} />
               <Route path="/activity" element={<ActivityPage />} />
+              <Route path="/chat" element={<ChatPage />} />
             </Route>
           </Routes>
 

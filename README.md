@@ -10,6 +10,16 @@ npm install
 
 Copy `.env.example` to `.env.local` and fill in values (Firebase config, API URL).
 
+### AI Chat
+
+The `/chat` route calls the Anthropic API directly from the browser. Set your API key in `.env.local`:
+
+```
+VITE_ANTHROPIC_API_KEY=sk-ant-...
+```
+
+> **Note**: Direct browser access to the Anthropic API is intended for development/demo only. Move the API call server-side before production.
+
 ## Commands
 
 | Command | Description |

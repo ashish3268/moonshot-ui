@@ -84,6 +84,32 @@
 
 ---
 
+## Phase 6b — AI Chat
+
+> Entry point: floating 💬 button (bottom-right, all pages) → toggles slide-in drawer; full page also accessible via sidebar `/chat`
+> API: Claude API called directly from frontend (VITE_ANTHROPIC_API_KEY). Move server-side before production.
+
+- [x] **C-01** Add `VITE_ANTHROPIC_API_KEY` to `.env.local` + document in README
+- [x] **C-02** Create `src/api/claude.ts` — thin wrapper around Anthropic API (`/v1/messages`) using `fetch`, with tool use support
+- [x] **C-03** Define Claude tools in `src/ai/tools.ts`: `add_expense`, `get_balance`, `list_expenses`, `settle_up`, `list_friends`, `list_groups`
+- [x] **C-04** Create `src/ai/systemPrompt.ts` — builds system prompt injecting current user's friends + groups as context so Claude can resolve names to IDs
+- [x] **C-05** Build `src/pages/ChatPage.tsx` — ChatGPT-style full page: scrollable message history + fixed input at bottom
+- [x] **C-06** Build `src/components/chat/ChatMessage.tsx` — user bubble (right) and assistant bubble (left) with markdown support
+- [x] **C-07** Build `src/components/chat/ConfirmationCard.tsx` — inline card shown when Claude calls a tool, with [Confirm] and [Edit] buttons
+- [x] **C-08** Build `src/components/chat/SuggestedPrompts.tsx` — shown on empty chat: "Split dinner with friends", "How much does Alice owe me?", "Show Yosemite expenses"
+- [x] **C-09** Add floating chat button to `AppShell.tsx` — fixed bottom-right, navigates to `/chat`
+- [x] **C-10** Wire tool confirmations to app actions — Confirm on `add_expense` → adds to mock data + shows success; `get_balance` → renders balance inline
+- [x] **C-11** Add `/chat` route to `App.tsx`
+- [x] **C-12** Extract `ChatMessageItem` type to `src/types/chat.ts` — shared between ChatPage and ChatDrawer
+- [x] **C-13** Extract chat logic into `src/hooks/useChatState.ts` — reusable hook managing messages, input, loading, handleSend, handleConfirm
+- [x] **C-14** Add `chatDrawerOpen` / `setChatDrawerOpen` / `toggleChatDrawer` to `src/store/uiStore.ts`
+- [x] **C-15** Build `src/components/chat/ChatDrawer.tsx` — fixed right-side slide-in panel (420px, CSS transform, no backdrop/dimming, no content push); header with expand-to-full and close buttons
+- [x] **C-16** Update `AppShell.tsx` — Fab toggles drawer (ChatIcon ↔ CloseIcon), ChatDrawer rendered as sibling; Fab hidden on `/chat` page
+- [x] **C-17** Refactor `ChatPage.tsx` to use `useChatState()`; add back-arrow button in header via `useNavigate(-1)`
+- [x] **C-18** Add "Chat" nav item to `Sidebar.tsx` with `AutoAwesomeIcon`, placed after Activity
+
+---
+
 ## Phase 7 — Polish & Deployment
 
 - [x] **S-40** Build `EmptyState` component — shown when lists are empty
