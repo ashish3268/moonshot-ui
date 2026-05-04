@@ -68,17 +68,94 @@ export interface Settlement {
   note?: string;
 }
 
+export interface SplitParticipant {
+  userId: string;
+  name: string;
+  amount: number;
+}
+
 export interface ActivityItem {
   id: string;
   type: 'expense_added' | 'expense_edited' | 'settlement';
   description: string;
   amount?: number;
   groupName?: string;
+  groupId?: string;
   createdAt: string;
+  settlementId?: string;
+  expenseId?: string;
+  paidByName?: string;
+  paidById?: string;
+  splits?: SplitParticipant[];
 }
 
 export interface DashboardSummary {
   totalOwed: number;
   totalOwe: number;
   recentActivity: ActivityItem[];
+}
+
+export interface GroupMember {
+  user: User;
+  joinedAt: string;
+  netBalance: number;
+}
+
+export interface BalanceBreakdown {
+  totalPaid: number;
+  totalOwedToMe: number;
+  totalIOwe: number;
+  net: number;
+}
+
+export interface GroupDetail {
+  id: string;
+  name: string;
+  emoji: string;
+  members: GroupMember[];
+  expenses: GroupExpense[];
+  currentUserBalance: BalanceBreakdown;
+  createdAt: string;
+}
+
+export interface GroupExpense {
+  id: string;
+  description: string;
+  amount: number;
+  date: string;
+  category: ExpenseCategory;
+  paidBy: User;
+  splits: Split[];
+  createdAt: string;
+}
+
+export interface SharedExpense {
+  id: string;
+  description: string;
+  amount: number;
+  date: string;
+  category: ExpenseCategory;
+  paidBy: User;
+  mySplitAmount: number;
+  mySplitSettled: boolean;
+  groupId?: string;
+  createdAt: string;
+}
+
+export interface FriendBalance {
+  userId: string;
+  isOwed: number;
+  owes: number;
+  net: number;
+}
+
+export interface ExpenseCreatePayload {
+  description: string;
+  amount: number;
+  date: string;
+  category: ExpenseCategory;
+  paidById: string;
+  groupId?: string;
+  splitMode: 'equal' | 'exact' | 'percent' | 'shares';
+  participants: { userId: string; value?: number }[];
 }

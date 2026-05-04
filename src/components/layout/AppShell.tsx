@@ -6,6 +6,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import Sidebar from '@/components/layout/Sidebar';
 import TopBar from '@/components/layout/TopBar';
 import ChatDrawer from '@/components/chat/ChatDrawer';
+import AddExpenseModal from '@/components/expenses/AddExpenseModal';
 import { useUiStore } from '@/store/uiStore';
 
 const DRAWER_WIDTH = 420;
@@ -65,6 +66,8 @@ export default function AppShell() {
 
       {/* Drawer — only rendered outside /chat */}
       {!isOnChat && <ChatDrawer />}
+
+      <AddExpenseModal />
     </ShellRoot>
   );
 }

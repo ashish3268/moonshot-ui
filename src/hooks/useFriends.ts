@@ -1,23 +1,43 @@
-import { useState, useEffect } from 'react';
-import type { Friend } from '@/types/api';
-import { MOCK_FRIENDS } from '@/mocks/data';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { friendKeys, userKeys } from '@/api/queryKeys';
+import { fetchFriends, fetchFriendBalance, fetchSharedExpenses, inviteFriend } from '@/api/friends';
+import { fetchNonFriendUsers } from '@/api/users';
 
-interface UseFriendsResult {
-  data: Friend[];
-  isLoading: boolean;
+export function useFriends() {
+  return useQuery({
+    queryKey: friendKeys.list(),
+    queryFn: fetchFriends,
+  });
 }
 
-export function useFriends(): UseFriendsResult {
-  const [data, setData] = useState<Friend[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export function useFriendBalance(friendId: string) {
+  return useQuery({
+    queryKey: friendKeys.detail(friendId),
+    queryFn: () => fetchFriendBalance(friendId),
+  });
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setData(MOCK_FRIENDS);
-      setIsLoading(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
+export function useSharedExpenses(friendId: string) {
+  return useQuery({
+    queryKey: [...friendKeys.detail(friendId), 'expenses'],
+    queryFn: () => fetchSharedExpenses(friendId),
+  });
+}
 
-  return { data, isLoading };
+export function useNonFriendUsers() {
+  return useQuery({
+    queryKey: [...userKeys.me, 'non-friends'],
+    queryFn: fetchNonFriendUsers,
+  });
+}
+
+export function useInviteFriend() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ email, name }: { email: string; name?: string }) => inviteFriend(email, name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: friendKeys.all });
+      queryClient.invalidateQueries({ queryKey: [...userKeys.me, 'non-friends'] });
+    },
+  });
 }

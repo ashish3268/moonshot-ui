@@ -1,12 +1,9 @@
-/**
- * Firebase configuration stub.
- * Full implementation will be added in Phase 2 (S-11).
- *
- * This file exports a placeholder `auth` object so that
- * `src/api/client.ts` can import it without errors during Phase 1.
- */
+import type { Auth, User } from 'firebase/auth';
 
-import { type Auth } from 'firebase/auth';
+const DEV_FIREBASE_UID = import.meta.env.VITE_DEV_USER_FIREBASE_UID as string | undefined;
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export const auth: Auth = null!;
+const devUser = DEV_FIREBASE_UID
+  ? ({ getIdToken: async () => `dev:${DEV_FIREBASE_UID}` } as unknown as User)
+  : null;
+
+export const auth = { currentUser: devUser } as unknown as Auth;

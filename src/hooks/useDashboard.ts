@@ -1,23 +1,10 @@
-import { useState, useEffect } from 'react';
-import type { DashboardSummary } from '@/types/api';
-import { MOCK_DASHBOARD } from '@/mocks/data';
+import { useQuery } from '@tanstack/react-query';
+import { userKeys } from '@/api/queryKeys';
+import { fetchDashboard } from '@/api/dashboard';
 
-interface UseDashboardResult {
-  data: DashboardSummary | null;
-  isLoading: boolean;
-}
-
-export function useDashboard(): UseDashboardResult {
-  const [data, setData] = useState<DashboardSummary | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setData(MOCK_DASHBOARD);
-      setIsLoading(false);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return { data, isLoading };
+export function useDashboard() {
+  return useQuery({
+    queryKey: [...userKeys.me, 'dashboard'],
+    queryFn: fetchDashboard,
+  });
 }

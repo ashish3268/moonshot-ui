@@ -28,8 +28,7 @@ apiClient.interceptors.response.use(
     if (axios.isAxiosError(error) && error.response) {
       const status = error.response.status;
 
-      if (status === 401) {
-        // Session expired or unauthenticated — redirect to login
+      if (status === 401 && window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
 

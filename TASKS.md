@@ -32,10 +32,11 @@
 
 ---
 
-## Phase 3 — Friends (mock-data-only; real API wiring pending)
+## Phase 3 — Friends
 
 - [x] **S-16m** `src/hooks/useFriends.ts` — mock hook (300ms delay, returns MOCK_FRIENDS)
-- [x] **S-17** `src/hooks/useFriends.ts` — React Query hooks (mock implementation complete)
+- [x] **S-17** `src/hooks/useFriends.ts` — React Query hooks (real API wired)
+- [x] **S-17a** `src/api/friends.ts` — fetchFriends, fetchFriendBalance, fetchSharedExpenses (snake_case → camelCase)
 - [x] **S-18** Build `FriendsPage` — list with owed/owing/settled sections and net balances
 - [x] **S-19** Build `FriendDetailPage` — shared expenses list + net balance + Settle Up CTA
 - [ ] **S-20** Build `SettleUpModal` — confirm and record a settlement
@@ -43,20 +44,23 @@
 
 ---
 
-## Phase 4 — Groups (mock-data-only; real API wiring pending)
+## Phase 4 — Groups
 
 - [x] **S-22m** `src/hooks/useGroups.ts` — mock hook (300ms delay, returns MOCK_GROUPS)
-- [x] **S-23** `src/hooks/useGroups.ts` — React Query hooks (mock implementation complete)
+- [x] **S-23** `src/hooks/useGroups.ts` — React Query hooks (real API wired)
+- [x] **S-23a** `src/api/groups.ts` — fetchGroups, fetchGroupDetail (snake_case → camelCase)
 - [x] **S-24** Build `GroupsPage` — card grid with per-group net balance
-- [x] **S-25** Build `GroupDetailPage` — members list, expense list, balance breakdown
+- [x] **S-25** Build `GroupDetailPage` — members list, expense list, balance breakdown (uses useGroupDetail)
 - [ ] **S-26** Create Group flow — name, emoji/color picker, add initial members
 
 ---
 
-## Phase 5 — Expenses (mock-data-only; real API wiring pending)
+## Phase 5 — Expenses
 
 - [x] **S-27m** `src/hooks/useExpenses.ts` — mock hook (300ms delay, filterable by groupId)
-- [ ] **S-28** `src/hooks/useExpenses.ts` — React Query hooks (real API)
+- [x] **S-28** `src/hooks/useExpenses.ts` — React Query hooks (real API)
+- [x] **S-28a** `src/api/expenses.ts` — fetchExpenses, createExpense, deleteExpenseById (snake_case → camelCase)
+- [x] **S-28b** `AddExpenseModal` wired to real `useCreateExpense()` mutation; removes alert mock
 - [ ] **S-29** `src/utils/splitting.ts` — pure functions for equal, exact, percent, shares split modes
 - [x] **S-30** `src/constants/categories.ts` — expense categories with icons
 - [x] **S-31** Build `AddExpenseModal` — description, amount, date, category, paid-by, group, split preview
@@ -66,9 +70,12 @@
 
 ---
 
-## Phase 6 — Dashboard & Activity (mock-data-only; real API wiring pending)
+## Phase 6 — Dashboard & Activity
 
 - [x] **S-35m** `src/hooks/useDashboard.ts` — mock hook (300ms delay, returns MOCK_DASHBOARD)
+- [x] **S-35a** `src/hooks/useDashboard.ts` — real API wired via fetchDashboard
+- [x] **S-35b** `src/api/dashboard.ts` — fetchDashboard (snake_case → camelCase)
+- [x] **S-35c** `src/hooks/useActivity.ts` — real API wired (derives from fetchDashboard)
 - [x] **S-36** Build `DashboardPage` — summary cards (owed/owe), groups list, recent activity feed
 - [x] **S-37** Build `ActivityPage` — full chronological feed grouped by date
 - [x] **S-38** `src/utils/currency.ts` — currency formatting helpers
@@ -126,9 +133,12 @@
 
 ---
 
-> **Note**: Phases 3–6 pages are currently mock-data-only. All hooks return hardcoded data from
-> `src/mocks/data.ts` with a 300ms artificial delay. Real API wiring (React Query + Axios) is
-> deferred until Phase 2 auth is in place.
+> **Note**: All hooks (friends, groups, expenses, dashboard, activity) are now wired to the real
+> FastAPI backend at `http://localhost:8000`. A dev auth bypass is in place: when `FIREBASE_PROJECT_ID`
+> is empty (dev), the backend accepts `dev:<firebase_uid>` tokens. The seed user is Alex Johnson
+> (UUID `00000000-0000-0000-0000-000000000001`, firebase_uid `seed-u1`). FriendDetailPage still
+> uses MOCK_FRIENDS/MOCK_EXPENSES directly — wiring deferred until friend detail API endpoints
+> are confirmed.
 
 ---
 

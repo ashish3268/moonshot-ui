@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import theme from '@/theme/theme';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import AppShell from '@/components/layout/AppShell';
-import AddExpenseModal from '@/components/expenses/AddExpenseModal';
 import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 import FriendsPage from '@/pages/FriendsPage';
@@ -25,6 +25,7 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
+    <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -45,11 +46,9 @@ export default function App() {
               <Route path="/chat" element={<ChatPage />} />
             </Route>
           </Routes>
-
-          {/* Global modals — rendered outside route tree */}
-          <AddExpenseModal />
         </BrowserRouter>
       </ThemeProvider>
     </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

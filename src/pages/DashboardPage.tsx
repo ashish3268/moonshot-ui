@@ -9,8 +9,8 @@ import { formatCurrency } from '@/utils/currency';
 import { formatRelativeDate } from '@/utils/dates';
 
 export default function DashboardPage() {
-  const { data: summary, isLoading: summaryLoading } = useDashboard();
-  const { data: groups, isLoading: groupsLoading } = useGroups();
+  const { data: summary, isPending: summaryLoading } = useDashboard();
+  const { data: groups = [], isPending: groupsLoading } = useGroups();
   const navigate = useNavigate();
 
   if (summaryLoading || groupsLoading) {
